@@ -6,7 +6,7 @@
 /*   By: Noctis <Noctis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:18 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/18 00:00:53 by Noctis           ###   ########.fr       */
+/*   Updated: 2024/11/18 01:13:28 by Noctis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		free(ptr);
 	}
 	*lst = NULL;
-}
-
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
-{
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
-}
-
-void	ft_lstiter(t_list *lst, void (*f)(void *))
-{
-	if (!lst || !f)
-		return ;
-	while (lst)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
 }
 
 t_list	*ft_lstlast(t_list *lst)
