@@ -6,12 +6,11 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:53:15 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/19 18:53:36 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:50:40 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 int	main(void)
 {
@@ -28,11 +27,11 @@ int	main(void)
 	// get_next_line(fd);
 	while (1)
 	{
-		k=get_next_line(fd);
-		if(!k || k[0]=='\0')
-			break;
-		printf("%s",k);
-	printf("\n----------------\n");
+		k = get_next_line(fd);
+		if (!k || k[0] == '\0')
+			break ;
+		printf("%s", k);
+		printf("\n----------------\n");
 	}
 	//--------------------------------------------
 	// printf("%s", get_next_line(fd));

@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:24 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/19 19:14:18 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:50:28 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,23 @@ int	ft_check(char *t)
 
 char	*ft_get_buffer(int fd, char *buffer)
 {
-	char	*t;
+	char	t[BUFFER_SIZE + 1];
 
-	t = malloc(BUFFER_SIZE + 1);
-	if (!t)
-		return (NULL);
+	// char	*t;
+	t[BUFFER_SIZE] = '\0';
+	// t = malloc(BUFFER_SIZE + 1);
+	// if (!t)
+	// 	return (NULL);
 	while (ft_check(buffer) == 0 && read(fd, t, BUFFER_SIZE) > 0)
 	{
 		buffer = ft_strjoin(buffer, t);
 		if (!buffer)
-			break ;
+			return (free(buffer), buffer = NULL, NULL);
 		if (ft_check(t) == 1)
 			break ;
 	}
-	free(t);
-	t = NULL;
+	// free(t);
+	// t = NULL;
 	return (buffer);
 }
 
@@ -53,10 +55,10 @@ char	*ft_get_line(char *buffer)
 
 	i = 0;
 	if (!buffer)
-		return (NULL);
+		return (free(buffer), buffer = NULL, NULL);
 	t = malloc(ft_strlen(buffer) + 1);
 	if (!t)
-		return (NULL);
+		return (free(buffer), buffer = NULL, NULL);
 	while (buffer[i])
 	{
 		if (buffer[i] == '\n')
@@ -78,7 +80,11 @@ char	*ft_fix(char *buffer)
 	char	*t;
 
 	i = 0;
+	if (!buffer)
+		return (free(buffer), buffer = NULL, NULL);
 	t = ft_strdup(buffer);
+	if (!t)
+		return (free(buffer), buffer = NULL, NULL);
 	while (t[i])
 	{
 		if (t[i] == '\n')
@@ -90,9 +96,7 @@ char	*ft_fix(char *buffer)
 	}
 	free(buffer);
 	buffer = ft_substr(t, i, ft_strlen(t));
-	free(t);
-	t = NULL;
-	return (buffer);
+	return (free(t), t = NULL, buffer);
 }
 
 char	*get_next_line(int fd)
@@ -104,24 +108,20 @@ char	*get_next_line(int fd)
 	{
 		buffer = malloc(BUFFER_SIZE + 1);
 		if (!buffer)
-			return (NULL);
+			return (free(buffer), buffer = NULL, NULL);
 		buffer[BUFFER_SIZE] = '\0';
 	}
 	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, 0, 0) == -1)
-	{
-		free(buffer);
-		buffer = NULL;
-		return (NULL);
-	}
+		return (free(buffer), buffer = NULL, NULL);
 	buffer = ft_get_buffer(fd, buffer);
+	if (!buffer)
+		return (free(buffer), buffer = NULL, NULL);
 	line = ft_get_line(buffer);
-	// if (!line)
-	// {
-	// 	free(buffer);
-	// 	buffer = NULL;
-	// 	return (NULL);
-	// }
+	if (!line)
+		return (free(buffer), buffer = NULL, NULL);
 	buffer = ft_fix(buffer);
+	if (!buffer)
+		return (free(buffer), buffer = NULL, NULL);
 	// printf("\n----------------\n");
 	// printf("1:| %s  |\n", buffer);
 	// printf("2:| %s  |\n", line);

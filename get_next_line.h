@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:14 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/19 17:55:02 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:50:36 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,5 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
-
-
 
 #endif

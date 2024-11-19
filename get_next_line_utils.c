@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:18 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/19 17:53:29 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/19 21:49:39 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (ft_strlcpy(dst, s1, (n1 + n2 + 1)) == n1)
 		if (ft_strlcat(dst, s2, (n1 + n2 + 1)) == n1 + n2)
 			return (dst);
-	
 	return (NULL);
 }
 
@@ -41,6 +40,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	size_t	i;
 	size_t	s1;
 
+	if (!dst || !src)
+		return (0);
 	i = 0;
 	s1 = ft_strlen(src);
 	if (dstsize == 0)
@@ -59,6 +60,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	size_t	s1;
 	size_t	s2;
 
+	if (!dst || !src)
+		return (0);
 	s1 = ft_strlen(src);
 	if (!dst && dstsize == 0)
 		return (s1);
@@ -106,6 +109,8 @@ char	*ft_strdup(const char *s1)
 	size_t	s;
 	char	*t;
 
+	if (!s1)
+		return (NULL);
 	s = ft_strlen(s1);
 	t = malloc((s + 1) * 1);
 	if (!t)
@@ -141,9 +146,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	if(!s)
-		return 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
