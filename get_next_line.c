@@ -6,7 +6,7 @@
 /*   By: Noctis <Noctis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:24 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/19 16:29:52 by Noctis           ###   ########.fr       */
+/*   Updated: 2024/11/19 17:03:05 by Noctis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_check(char *t)
 	i = 0;
 	while (t[i])
 	{
-		if (t[i] == '\n')
+		if (t[i] == '.')
 			return (1);
 		i++;
 	}
@@ -59,7 +59,7 @@ char	*ft_get_line(char *buffer)
 		return (NULL);
 	while (buffer[i])
 	{
-		if (buffer[i] == '\n')
+		if (buffer[i] == '.')
 		{
 			t[i] = buffer[i];
 			i++;
@@ -81,7 +81,7 @@ char	*ft_fix(char *buffer)
 	t = ft_strdup(buffer);
 	while (t[i])
 	{
-		if (t[i] == '\n')
+		if (t[i] == '.')
 		{
 			i++;
 			break ;
@@ -91,6 +91,7 @@ char	*ft_fix(char *buffer)
 	free(buffer);
 	buffer = ft_substr(t, i, ft_strlen(t));
 	free(t);
+	t=NULL;
 	return (buffer);
 }
 
@@ -106,7 +107,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		buffer[BUFFER_SIZE] = '\0';
 	}
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) <= 0)
+	if (fd < 0 || BUFFER_SIZE < 1 || write(fd, NULL, 0) < 0)
 	{
 		free(buffer);
 		buffer = NULL;
@@ -128,36 +129,41 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// int	main(void)
-// {
-// 	int fd;
-// 	int i;
-// 	char *k;
+int	main(void)
+{
+	int fd;
+	int i;
+	char *k;
 
-// 	fd = open("./t.txt", O_RDWR);
-// 	i = 0;
-// 	get_next_line(fd);
-// 	get_next_line(fd);
-// 	get_next_line(fd);
-// 	// while (i < 8)
-// 	// {
-// 	// 		get_next_line(fd);
-// 	// 	i++;
-// 	// }
-// 	//--------------------------------------------
-// 	// printf("%s", get_next_line(fd));
-// 	// printf("%s", get_next_line(fd));
-// 	// printf("%s", get_next_line(fd));
-// 	// while (i < 9)
-// 	// {
-// 	// 	printf("%s", get_next_line(fd));
-// 	// 	// k = get_next_line(fd);
-// 	// 	// printf("%s", k);
-// 	// 	// free(k);
-// 	// 	i++;
-// 	// }
-// 	close(fd);
+	fd = open("./t.txt", O_RDWR);
+	i = 0;
+	// get_next_line(fd);
+	// get_next_line(fd);
+	// get_next_line(fd);
+	// get_next_line(fd);
+	// get_next_line(fd);
+	while (1)
+	{
+		k=get_next_line(fd);
+		if(!k || k[0]=='\0')
+			break;
+		printf("%s",k);
+	printf("\n----------------\n");
+	}
+	//--------------------------------------------
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// printf("%s", get_next_line(fd));
+	// while (i < 9)
+	// {
+	// 	printf("%s", get_next_line(fd));
+	// 	// k = get_next_line(fd);
+	// 	// printf("%s", k);
+	// 	// free(k);
+	// 	i++;
+	// }
+	close(fd);
 
-// 	// printf("hello");
-// 	// printf("%s", k);
-// }
+	// printf("hello");
+	// printf("%s", k);
+}
