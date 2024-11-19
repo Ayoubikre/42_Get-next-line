@@ -3,110 +3,161 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Noctis <Noctis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:24 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/18 18:56:38 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:29:52 by Noctis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_check(char *t, unsigned int *i)
+int	ft_check(char *t)
 {
-	if (!t)
-		return (0);
-	while (t[*i])
+	int	i;
+
+	i = 0;
+	while (t[i])
 	{
-		if (t[*i] == '\n')
-		{
-			(*i)++;
+		if (t[i] == '\n')
 			return (1);
-		}
-		(*i)++;
+		i++;
 	}
 	return (0);
 }
-static char	*ft_fix(char *t, int i)
-{
-	int		j;
-	char	*t2;
 
-	j = 0;
-	t2 = malloc(ft_strlen(t + i) + 1);
-	while (t[i])
-	{
-		t2[j] = t[i];
-		j++;
-		i++;
-	}
-	free(t);
-	t = ft_strdup(t2);
-	free(t2);
-	return (t);
-}
-static char	*ft_create(int fd, char *t)
+char	*ft_get_buffer(int fd, char *buffer)
 {
-	unsigned int	i;
-	char			*line;
-	char			*tmp;
+	char	*t;
 
-	line = ft_strdup("");
-	while (read(fd, t, BUFFER_SIZE) > 0)
+	t = malloc(BUFFER_SIZE + 1);
+	if (!t)
+		return (NULL);
+	while (ft_check(buffer) == 0 && read(fd, t, BUFFER_SIZE) > 0)
 	{
-		i = 0;
-		t[BUFFER_SIZE] = '\0';
-		tmp = line;
-		line = ft_strjoin(tmp, t);
-		free(tmp);
-		if (!line)
-		{
-			free(line);
-			free(t);
-			t = NULL;
-			return (NULL);
-		}
-		if (ft_check(t, &i) == 1)
+		buffer = ft_strjoin(buffer, t);
+		if (!buffer)
+			break ;
+		if (ft_check(t) == 1)
 			break ;
 	}
-	t = ft_fix(t, i);
+	free(t);
+	t = NULL;
+	return (buffer);
+}
+
+char	*ft_get_line(char *buffer)
+{
+	int		i;
+	char	*t;
+
 	i = 0;
-	while (line[i] && line[i] != '\n')
+	if (!buffer)
+		return (NULL);
+	t = malloc(ft_strlen(buffer) + 1);
+	if (!t)
+		return (NULL);
+	while (buffer[i])
+	{
+		if (buffer[i] == '\n')
+		{
+			t[i] = buffer[i];
+			i++;
+			break ;
+		}
+		t[i] = buffer[i];
 		i++;
-	i++;
-	line[i] = '\0';
-	return (line);
+	}
+	t[i] = '\0';
+	return (t);
+}
+
+char	*ft_fix(char *buffer)
+{
+	int		i;
+	char	*t;
+
+	i = 0;
+	t = ft_strdup(buffer);
+	while (t[i])
+	{
+		if (t[i] == '\n')
+		{
+			i++;
+			break ;
+		}
+		i++;
+	}
+	free(buffer);
+	buffer = ft_substr(t, i, ft_strlen(t));
+	free(t);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*t;
+	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (NULL);
-	t = malloc(BUFFER_SIZE + 1);
-	if (!t)
+	if (!buffer)
 	{
-		free(t);
-		t = NULL;
+		buffer = malloc(BUFFER_SIZE + 1);
+		if (!buffer)
+			return (NULL);
+		buffer[BUFFER_SIZE] = '\0';
+	}
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) <= 0)
+	{
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
-	line = ft_create(fd, t);
+	buffer = ft_get_buffer(fd, buffer);
+	line = ft_get_line(buffer);
+	// if (!line)
+	// {
+	// 	free(buffer);
+	// 	buffer = NULL;
+	// 	return (NULL);
+	// }
+	buffer = ft_fix(buffer);
+	// printf("\n----------------\n");
+	// printf("1:| %s  |\n", buffer);
+	// printf("2:| %s  |\n", line);
+	// printf("----------------\n");
 	return (line);
 }
 
 // int	main(void)
 // {
-// 	int	fd;
-// 	int	i;
+// 	int fd;
+// 	int i;
+// 	char *k;
 
 // 	fd = open("./t.txt", O_RDWR);
 // 	i = 0;
-// 	while (i < 9)
-// 	{
-// 		printf("%s", get_next_line(fd));
-// 		i++;
-// 	}
+// 	get_next_line(fd);
+// 	get_next_line(fd);
+// 	get_next_line(fd);
+// 	// while (i < 8)
+// 	// {
+// 	// 		get_next_line(fd);
+// 	// 	i++;
+// 	// }
+// 	//--------------------------------------------
+// 	// printf("%s", get_next_line(fd));
+// 	// printf("%s", get_next_line(fd));
+// 	// printf("%s", get_next_line(fd));
+// 	// while (i < 9)
+// 	// {
+// 	// 	printf("%s", get_next_line(fd));
+// 	// 	// k = get_next_line(fd);
+// 	// 	// printf("%s", k);
+// 	// 	// free(k);
+// 	// 	i++;
+// 	// }
 // 	close(fd);
+
+// 	// printf("hello");
+// 	// printf("%s", k);
 // }
