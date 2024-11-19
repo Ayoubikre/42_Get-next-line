@@ -6,13 +6,13 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:18 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/18 15:35:38 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:53:29 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	n1;
 	size_t	n2;
@@ -32,6 +32,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (ft_strlcpy(dst, s1, (n1 + n2 + 1)) == n1)
 		if (ft_strlcat(dst, s2, (n1 + n2 + 1)) == n1 + n2)
 			return (dst);
+	
 	return (NULL);
 }
 
@@ -140,6 +141,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if(!s)
+		return 0;
 	while (s[i])
 		i++;
 	return (i);
