@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:14 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/23 12:01:21 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:08:08 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,9 @@ char	*ft_get_line(char *str);
 char	*ft_fix_str(char *str);
 char	*ft_get_str(int fd, char *str);
 
-
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
-
-// char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
-// char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-
 
 #endif
