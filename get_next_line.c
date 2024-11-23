@@ -6,56 +6,36 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:24 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/23 16:07:48 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:55:33 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_fix_str(char *str)
+char	*ft_fix_str(char *str, int i)
 {
 	char	*t;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\0')
-		return (free(str), str = NULL, NULL);
-	i++;
-	while (str[i + j])
-		j++;
-	t = malloc(j + 1);
+	t = ft_strdup(str + i);
 	if (!t)
 		return (free(str), str = NULL, NULL);
-	j = 0;
-	while (str[i + j])
-	{
-		t[j] = str[i + j];
-		j++;
-	}
-	t[j] = '\0';
 	return (free(str), str = NULL, t);
 }
 
-char	*ft_get_line(char *str)
+char	*ft_get_line(char *str, int *i)
 {
 	char	*t;
-	int		i;
 	int		j;
 
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
-	t = malloc(i + 1);
+	while (str[*i] && str[*i] != '\n')
+		(*i)++;
+	if (str[*i] == '\n')
+		(*i)++;
+	t = malloc(*i + 1);
 	if (!t)
 		return (NULL);
 	j = 0;
-	while (j < i)
+	while (j < *i)
 	{
 		t[j] = str[j];
 		j++;
@@ -94,15 +74,17 @@ char	*get_next_line(int fd)
 {
 	static char	*str;
 	char		*line;
+	int			i;
 
+	i = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (free(str), str = NULL, NULL);
 	str = ft_get_str(fd, str);
 	if (!str)
 		return (NULL);
-	line = ft_get_line(str);
+	line = ft_get_line(str, &i);
 	if (!line)
 		return (free(str), str = NULL, NULL);
-	str = ft_fix_str(str);
+	str = ft_fix_str(str, i);
 	return (line);
 }

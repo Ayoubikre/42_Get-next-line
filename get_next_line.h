@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:14 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/23 16:17:34 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:50:04 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 char	*get_next_line(int fd);
 
-char	*ft_get_line(char *str);
-char	*ft_fix_str(char *str);
+char	*ft_fix_str(char *str, int i);
+char	*ft_get_line(char *str, int *i);
 char	*ft_get_str(int fd, char *str);
 
 char	*ft_strjoin(char *s1, char *s2);
