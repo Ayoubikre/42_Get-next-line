@@ -6,20 +6,20 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:53:15 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/23 16:18:05 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:30:41 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 int	main(void)
 {
-	int fd= open("./a.txt", O_RDWR);
+	int fd = open("./a.txt", O_RDWR);
 
 	// get_next_line(fd);
 	// get_next_line(fd);
