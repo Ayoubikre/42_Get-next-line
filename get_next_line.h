@@ -6,17 +6,14 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:14 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/23 16:08:08 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:17:34 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <fcntl.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
