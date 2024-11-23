@@ -5,10 +5,11 @@ OBJS = $(SRCS1:.c=.o)
 
 NAME = a
 
-all: $(NAME) fc
+all: $(NAME) c
 
 $(NAME): $(OBJS) 
-	 clear &&$(CC) $(CFLAGS)  $(OBJS) -o $(NAME)  && ./$(NAME)
+	$(CC) $(CFLAGS)  $(OBJS) -o $(NAME)
+	./$(NAME)
 
 c:
 	@rm -rf $(OBJS) 
@@ -17,3 +18,4 @@ fc: c
 	@rm -rf $(NAME) 
 
 re: fc all
+

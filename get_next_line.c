@@ -6,125 +6,105 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 20:26:24 by Noctis            #+#    #+#             */
-/*   Updated: 2024/11/19 21:50:28 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 13:40:48 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_check(char *t)
+char	*ft_get_line(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (t[i])
-	{
-		if (t[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_get_buffer(int fd, char *buffer)
-{
-	char	t[BUFFER_SIZE + 1];
-
-	// char	*t;
-	t[BUFFER_SIZE] = '\0';
-	// t = malloc(BUFFER_SIZE + 1);
-	// if (!t)
-	// 	return (NULL);
-	while (ft_check(buffer) == 0 && read(fd, t, BUFFER_SIZE) > 0)
-	{
-		buffer = ft_strjoin(buffer, t);
-		if (!buffer)
-			return (free(buffer), buffer = NULL, NULL);
-		if (ft_check(t) == 1)
-			break ;
-	}
-	// free(t);
-	// t = NULL;
-	return (buffer);
-}
-
-char	*ft_get_line(char *buffer)
-{
-	int		i;
 	char	*t;
+	int		i;
+	int		j;
 
 	i = 0;
-	if (!buffer)
-		return (free(buffer), buffer = NULL, NULL);
-	t = malloc(ft_strlen(buffer) + 1);
-	if (!t)
-		return (free(buffer), buffer = NULL, NULL);
-	while (buffer[i])
-	{
-		if (buffer[i] == '\n')
-		{
-			t[i] = buffer[i];
-			i++;
-			break ;
-		}
-		t[i] = buffer[i];
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
 		i++;
+	t = malloc(++i + 1);
+	if (!t)
+		return (free(str), str = NULL, NULL);
+	j = 0;
+	while (j < i)
+	{
+		t[j] = str[j];
+		j++;
 	}
-	t[i] = '\0';
+	t[j] = '\0';
 	return (t);
 }
 
-char	*ft_fix(char *buffer)
+char	*ft_fix_str(char *str)
 {
-	int		i;
 	char	*t;
+	int		i;
+	int		j;
 
 	i = 0;
-	if (!buffer)
-		return (free(buffer), buffer = NULL, NULL);
-	t = ft_strdup(buffer);
-	if (!t)
-		return (free(buffer), buffer = NULL, NULL);
-	while (t[i])
-	{
-		if (t[i] == '\n')
-		{
-			i++;
-			break ;
-		}
+	j = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
 		i++;
+	if (str[i] == '\0')
+		return (free(str),str=NULL,NULL);
+	i++;
+	while (str[i + j])
+		j++;
+	t = malloc(j + 1);
+	if (!t)
+		return (free(str), str = NULL, NULL);
+	j = 0;
+	while (str[i + j])
+	{
+		t[j] = str[i + j];
+		j++;
 	}
-	free(buffer);
-	buffer = ft_substr(t, i, ft_strlen(t));
-	return (free(t), t = NULL, buffer);
+	t[j] = '\0';
+	free(str);
+	return (t);
+}
+
+char	*ft_get_str(int fd, char *str)
+{
+	char	*buffer;
+	char	*t;
+	ssize_t	rs;
+
+	rs = 1;
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (free(str), str = NULL, str);
+	while (rs != 0 && !ft_strchr(str, '\n'))
+	{
+		rs = read(fd, buffer, BUFFER_SIZE);
+		if (rs == -1)
+			return (free(buffer), buffer = NULL, free(str), str = NULL, str);
+		if (rs == 0 && (!str || str[0] == '\0'))
+			return (free(buffer), free(str), NULL);
+		buffer[rs] = '\0';
+		t = str;
+		str = ft_strjoin(str, buffer);
+		free(t);
+	}
+	return (free(buffer), buffer = NULL, str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*str;
 	char		*line;
 
-	if (!buffer)
-	{
-		buffer = malloc(BUFFER_SIZE + 1);
-		if (!buffer)
-			return (free(buffer), buffer = NULL, NULL);
-		buffer[BUFFER_SIZE] = '\0';
-	}
-	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, 0, 0) == -1)
-		return (free(buffer), buffer = NULL, NULL);
-	buffer = ft_get_buffer(fd, buffer);
-	if (!buffer)
-		return (free(buffer), buffer = NULL, NULL);
-	line = ft_get_line(buffer);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+		return (free(str), str = NULL, NULL);
+	str = ft_get_str(fd, str);
+	if (!str)
+		return (NULL);
+	line = ft_get_line(str);
 	if (!line)
-		return (free(buffer), buffer = NULL, NULL);
-	buffer = ft_fix(buffer);
-	if (!buffer)
-		return (free(buffer), buffer = NULL, NULL);
-	// printf("\n----------------\n");
-	// printf("1:| %s  |\n", buffer);
-	// printf("2:| %s  |\n", line);
-	// printf("----------------\n");
+		return (free(str), str = NULL, NULL);
+	str = ft_fix_str(str);
 	return (line);
 }

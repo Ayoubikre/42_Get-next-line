@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:53:15 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/19 21:50:40 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 12:12:24 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,22 @@
 
 int	main(void)
 {
-	int fd;
-	int i;
-	char *k;
+	int fd= open("./a.txt", O_RDWR);
 
-	fd = open("./a.txt", O_RDWR);
-	i = 0;
 	// get_next_line(fd);
 	// get_next_line(fd);
 	// get_next_line(fd);
 	// get_next_line(fd);
 	// get_next_line(fd);
+	char *k;
 	while (1)
 	{
 		k = get_next_line(fd);
 		if (!k || k[0] == '\0')
 			break ;
 		printf("%s", k);
-		printf("\n----------------\n");
 	}
-	//--------------------------------------------
-	// printf("%s", get_next_line(fd));
+	printf("\n--------------------------------------------");
 	// printf("%s", get_next_line(fd));
 	// printf("%s", get_next_line(fd));
 	// while (i < 9)
@@ -45,7 +40,7 @@ int	main(void)
 	// 	// free(k);
 	// 	i++;
 	// }
-	close(fd);
+	// close(fd);
 
 	// printf("hello");
 	// printf("%s", k);
