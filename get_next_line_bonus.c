@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:54:25 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/23 21:31:54 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:22:53 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_get_str(int fd, char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*;str[OPEN_MAX]
+	static char	*str[OPEN_MAX];
 	char		*line;
 	int			i;
 
