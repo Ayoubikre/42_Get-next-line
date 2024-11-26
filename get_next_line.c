@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 20:30:31 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/26 21:03:50 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:05:14 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_get_line(char *str, int *i)
 	return (t);
 }
 
-char	*ft_get_str(char *str, int fd)
+char	*ft_get_str(int fd, char *str)
 {
 	char	buff[BUFFER_SIZE];
 	int		rs;
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 	i = 0;
 	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) == -1)
 		return (free(str), str = NULL, NULL);
-	str = ft_get_str(str, fd);
+	str = ft_get_str(fd, str);
 	if (!str)
 		return (NULL);
 	line = ft_get_line(str, &i);
