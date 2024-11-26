@@ -6,11 +6,17 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 20:30:31 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/26 21:03:36 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:31:41 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+
+
+									// main one
+
+						
 
 char	*ft_fix_str(char *str, int i)
 {

@@ -6,11 +6,17 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 20:30:31 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/26 21:05:14 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:42:43 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+
+
+									// test one
+
+								
 
 char	*ft_fix_str(char *str, int i)
 {
@@ -19,7 +25,8 @@ char	*ft_fix_str(char *str, int i)
 	t = ft_strdup(str + i);
 	if (!t)
 		return (free(str), str = NULL, NULL);
-	return (t);
+	return (free(str), str = NULL, t);
+	// return (t);
 }
 
 char	*ft_get_line(char *str, int *i)
@@ -27,7 +34,7 @@ char	*ft_get_line(char *str, int *i)
 	char	*t;
 	int		j;
 
-	while (str[*i] || str[*i] != '\n')
+	while (str[*i] &&str[*i] != '\n')
 		(*i)++;
 	if (str[*i] == '\n')
 		(*i)++;
@@ -35,7 +42,7 @@ char	*ft_get_line(char *str, int *i)
 	if (!t)
 		return (NULL);
 	j = 0;
-	while (j <= *i)
+	while (j < *i)
 	{
 		t[j] = str[j];
 		j++;
@@ -46,27 +53,28 @@ char	*ft_get_line(char *str, int *i)
 
 char	*ft_get_str(int fd, char *str)
 {
-	char	buff[BUFFER_SIZE];
-	int		rs;
+	char	*buff;
+	ssize_t		rs;
 
-	// char	*buff;
-	rs = 1;
-	// buff=malloc(BUFFER_SIZE+1);
 	if (!str)
 		str = ft_strdup("");
+	rs = 1;
+	buff = malloc(BUFFER_SIZE + 1);
+	if (!buff)
+		return (free(str), str = NULL, NULL);
 	while (rs > 0)
 	{
 		rs = read(fd, buff, BUFFER_SIZE);
 		if (rs < 1 && (!str || !str[0]))
-			return (free(str), str = NULL, NULL);
+			return (free(buff), buff = NULL, free(str), str = NULL, NULL);
 		buff[rs] = '\0';
 		str = ft_strjoin(str, buff);
 		if (!str)
 			return (NULL);
-		if (ft_strchr(str, '\n') != NULL)
+		if (ft_strchr(str, '\n'))
 			break ;
 	}
-	return (str);
+	return (free(buff), buff = NULL, str);
 }
 
 char	*get_next_line(int fd)
@@ -76,7 +84,7 @@ char	*get_next_line(int fd)
 	int			i;
 
 	i = 0;
-	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) == -1)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (free(str), str = NULL, NULL);
 	str = ft_get_str(fd, str);
 	if (!str)
@@ -85,5 +93,5 @@ char	*get_next_line(int fd)
 	if (!line)
 		return (free(str), str = NULL, NULL);
 	str = ft_fix_str(str, i);
-	return (str);
+	return (line);
 }
