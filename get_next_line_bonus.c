@@ -6,7 +6,7 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:54:25 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/23 21:22:53 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/27 21:54:21 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_get_str(int fd, char *str)
 	while (rs > 0)
 	{
 		rs = read(fd, buffer, BUFFER_SIZE);
-		if (rs < 1 && (!str || !str[0]))
+		if ((rs == -1) || (rs == 0 && (!str || !str[0])))
 			return (free(buffer), buffer = NULL, free(str), str = NULL, NULL);
 		buffer[rs] = '\0';
 		str = ft_strjoin(str, buffer);

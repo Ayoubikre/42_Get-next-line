@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra 
 SRCS1 =  get_next_line_utils.c  get_next_line.c  main.c
 # SRCS1 =  get_next_line_utils_bonus.c  get_next_line_bonus.c  main.c
 OBJS = $(SRCS1:.c=.o)

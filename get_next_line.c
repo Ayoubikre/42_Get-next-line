@@ -6,17 +6,11 @@
 /*   By: aakritah <aakritah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 20:30:31 by aakritah          #+#    #+#             */
-/*   Updated: 2024/11/26 21:42:43 by aakritah         ###   ########.fr       */
+/*   Updated: 2024/11/27 21:54:25 by aakritah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-
-
-									// test one
-
-								
 
 char	*ft_fix_str(char *str, int i)
 {
@@ -26,7 +20,6 @@ char	*ft_fix_str(char *str, int i)
 	if (!t)
 		return (free(str), str = NULL, NULL);
 	return (free(str), str = NULL, t);
-	// return (t);
 }
 
 char	*ft_get_line(char *str, int *i)
@@ -34,7 +27,7 @@ char	*ft_get_line(char *str, int *i)
 	char	*t;
 	int		j;
 
-	while (str[*i] &&str[*i] != '\n')
+	while (str[*i] && str[*i] != '\n')
 		(*i)++;
 	if (str[*i] == '\n')
 		(*i)++;
@@ -53,28 +46,28 @@ char	*ft_get_line(char *str, int *i)
 
 char	*ft_get_str(int fd, char *str)
 {
-	char	*buff;
-	ssize_t		rs;
+	char	*buffer;
+	ssize_t	rs;
 
 	if (!str)
 		str = ft_strdup("");
-	rs = 1;
-	buff = malloc(BUFFER_SIZE + 1);
-	if (!buff)
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
 		return (free(str), str = NULL, NULL);
+	rs = 1;
 	while (rs > 0)
 	{
-		rs = read(fd, buff, BUFFER_SIZE);
-		if (rs < 1 && (!str || !str[0]))
-			return (free(buff), buff = NULL, free(str), str = NULL, NULL);
-		buff[rs] = '\0';
-		str = ft_strjoin(str, buff);
+		rs = read(fd, buffer, BUFFER_SIZE);
+		if ((rs == -1) || (rs == 0 && (!str || !str[0])))
+			return (free(buffer), buffer = NULL, free(str), str = NULL, NULL);
+		buffer[rs] = '\0';
+		str = ft_strjoin(str, buffer);
 		if (!str)
 			return (NULL);
-		if (ft_strchr(str, '\n'))
+		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	return (free(buff), buff = NULL, str);
+	return (free(buffer), buffer = NULL, str);
 }
 
 char	*get_next_line(int fd)
